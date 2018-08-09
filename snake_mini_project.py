@@ -9,6 +9,9 @@ Date:
 import turtle
 import random #We'll need this later in the lab
 
+color_bg = input('what color do you want your backgruond to be?')
+turtle.bgcolor(color_bg)
+
 score = 0
 
 border=turtle.clone()
@@ -162,6 +165,7 @@ def make_food():
     food_stamps.append(food_stamps1)
 
 def move_snake():
+    print('move snake called')
     my_pos = snake.pos()
     x_pos = my_pos[0]
     y_pos = my_pos[1]
@@ -219,7 +223,6 @@ def move_snake():
    
 
 
-    ...
     ######## SPECIAL PLACE - Remember it for Part 5
     global food_stamps, food_pos, score
     #If snake is on top of food item
@@ -246,12 +249,32 @@ def move_snake():
         make_food()
     turtle.clear()
 
+    timestep = score_to_timestep(score)
+
     turtle.write(score, font=('Arial', 20))
     turtle.penup
     turtle.goto(-350,210)
-    turtle.ontimer(move_snake,TIME_STEP) #<--Last line of function
+    turtle.ontimer(move_snake,timestep) #<--Last line of function
 
+def score_to_timestep(score_int):
+    #for score of 0, should output 100
+    timestep = 100
+    num_speedups = score_int//5
 
+    for five_point_speedup in range(num_speedups):
+        timestep = timestep / 1.5
+
+    timestep = int(timestep)
+
+    print('timestep; ' + str(timestep))
+    print('score: ' + str(score_int))
+    
+    if timestep == 0:
+        return 1
+    else:
+        return timestep
+        
+    
     
     
 
@@ -286,3 +309,4 @@ for i in food_pos :
 
 
 move_snake()
+turtle.mainloop()
